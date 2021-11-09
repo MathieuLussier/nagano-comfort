@@ -29,10 +29,6 @@ bedroom_statuses = BedroomStatus.create([
 
 view_types = ViewType.create([{ key: 'view_parking', label: 'Parking' }, { key: 'view_ocean', label: 'Océan' }])
 
-extra_options = ExtraOption.create([
-                                     { name: 'Weekend extra price', description: '', is_billable: true, price: 100.00 }
-                                   ])
-
 bedrooms = Bedroom.create([
                             {
                               name: 'A100',
@@ -40,7 +36,7 @@ bedrooms = Bedroom.create([
                               bedroom_status_id: bedroom_statuses.first.id,
                               view_type_id: view_types.first.id,
                               nb_of_beds: 2,
-                              price_per_night: 355.50
+                              price_per_night: 355.50 # 711 +
                             },
                             {
                               name: 'A101',
@@ -48,7 +44,7 @@ bedrooms = Bedroom.create([
                               bedroom_status_id: bedroom_statuses.find { |x| x.key == 'statut_reserve' }.id,
                               view_type_id: view_types.find { |x| x.key == 'view_ocean' }.id,
                               nb_of_beds: 1,
-                              price_per_night: 410.75
+                              price_per_night: 410.75 # 821.50 = 1532,50
                             },
                             {
                               name: 'A102',
@@ -65,23 +61,45 @@ bedrooms[1].neighbors << bedrooms[0]
 bedrooms[1].neighbors << bedrooms[2]
 bedrooms[2].neighbors << bedrooms[1]
 
-discounts = Discount.create([
-                              { name: 'Promo 1 year anniversary', discount_amount: 0.05, start_date: Date.parse('2021-11-1'), end_date: Date.parse('2021-11-30') },
-                              { name: 'Partnership discount', discount_amount: 0.10, start_date: Date.parse('2021-09-1'), end_date: nil }
-                            ])
+price_variations = PriceVariation.create([
+                                           {
+                                             name: 'Promo 1 year anniversary',
+                                             variation_amount: 0.05,
+                                             start_date: Date.parse('2021-11-01'),
+                                             end_date: Date.parse('2021-11-30'),
+                                             day_of_week: 0,
+                                             is_discount: true
+                                           },
+                                           {
+                                             name: 'Partnership discount',
+                                             variation_amount: 0.10,
+                                             start_date: Date.parse('2021-09-01'),
+                                             end_date: nil,
+                                             day_of_week: 0,
+                                             is_discount: true
+                                           },
+                                           {
+                                             name: 'Friday price',
+                                             variation_amount: 0.02,
+                                             start_date: Date.parse('2021-09-01'),
+                                             end_date: nil,
+                                             day_of_week: 5,
+                                             is_discount: false
+                                           }
+                                         ])
 
 reservation_1 = bedrooms[0].reservations.create({
                                                   customer_id: customers.first.id,
-                                                  discount_id: discounts.last.id,
                                                   description: 'The client want both bedrooms to be connected together.',
                                                   in_date: DateTime.parse('2021-11-06 14:00'),
-                                                  out_date: '',
+                                                  out_date: nil,
                                                   nb_guests: 3,
                                                   duration: 2
                                                 })
 
 bedrooms[1].reservations << reservation_1
 
-reservation_1.extra_option_reservation_rels.create({ extra_option_id: extra_options.first.id })
+reservation_1.price_variations << price_variations.first
+reservation_1.price_variations << price_variations.last
 
 transaction_1 = reservation_1.transactions.create({ customer_id: reservation_1.customer.id, transaction_date: DateTime.parse('2021-11-10 11:25') })

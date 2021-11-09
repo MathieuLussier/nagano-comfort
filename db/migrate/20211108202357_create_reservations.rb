@@ -10,7 +10,6 @@ class CreateReservations < ActiveRecord::Migration
       t.integer :duration
 
       t.references :customer, null: false, index: true, foreign_key: true
-      t.references :discount, index: true, foreign_key: true
 
       t.timestamps
     end

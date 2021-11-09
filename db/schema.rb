@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20211109050913) do
+ActiveRecord::Schema.define(:version => 20211109204353) do
 
   create_table "bedroom_neighbors", :id => false, :force => true do |t|
     t.integer  "bedroom_id",  :null => false
@@ -53,29 +53,15 @@ ActiveRecord::Schema.define(:version => 20211109050913) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "discounts", :force => true do |t|
-    t.string   "name",            :null => false
-    t.decimal  "discount_amount", :null => false
-    t.date     "start_date",      :null => false
+  create_table "price_variations", :force => true do |t|
+    t.string   "name",                                :null => false
+    t.decimal  "variation_amount",                    :null => false
+    t.date     "start_date",                          :null => false
     t.date     "end_date"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-  end
-
-  create_table "extra_option_reservation_rels", :id => false, :force => true do |t|
-    t.integer  "extra_option_id", :null => false
-    t.integer  "reservation_id",  :null => false
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-  end
-
-  create_table "extra_options", :force => true do |t|
-    t.string   "name",        :null => false
-    t.text     "description"
-    t.boolean  "is_billable", :null => false
-    t.decimal  "price"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.integer  "day_of_week"
+    t.boolean  "is_discount",      :default => false, :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
   end
 
   create_table "reservation_bedroom_rels", :id => false, :force => true do |t|
@@ -85,6 +71,13 @@ ActiveRecord::Schema.define(:version => 20211109050913) do
     t.datetime "updated_at",     :null => false
   end
 
+  create_table "reservation_price_variation_rels", :id => false, :force => true do |t|
+    t.integer  "price_variation_id", :null => false
+    t.integer  "reservation_id",     :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
   create_table "reservations", :force => true do |t|
     t.text     "description"
     t.datetime "in_date",     :null => false
@@ -92,7 +85,6 @@ ActiveRecord::Schema.define(:version => 20211109050913) do
     t.integer  "nb_guests"
     t.integer  "duration"
     t.integer  "customer_id", :null => false
-    t.integer  "discount_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end

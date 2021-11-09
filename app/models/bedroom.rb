@@ -12,7 +12,7 @@ class Bedroom < ActiveRecord::Base
   belongs_to :view_type
 
   has_many :bedroom_neighbors
-  has_many :neighbors, through: :bedroom_neighbors, dependent: :destroy
+  has_many :neighbors, through: :bedroom_neighbors
   has_many :reservation_bedroom_rel
-  has_many :reservations, through: :reservation_bedroom_rel, dependent: :destroy
+  has_many :reservations, through: :reservation_bedroom_rel
 end
