@@ -13,21 +13,21 @@ customers = Customer.create([
                             ])
 
 bedroom_types = BedroomType.create([
-                                     { key: 'chambre_simple_lit', label: 'Chambre simple lit' },
-                                     { key: 'chambre_double_lit', label: 'Chambre double lit' },
-                                     { key: 'chambre_executive', label: 'Chambre exécutive' },
-                                     { key: 'suite_presidentielle', label: 'Suite présidentielle' }
+                                     { key: 'bedroom_simple_bed', label: 'Simple bed' },
+                                     { key: 'bedroom_double_bed', label: 'Double bed' },
+                                     { key: 'bedroom_executive', label: 'Executive bedroom' },
+                                     { key: 'presidential_suite', label: 'Presidential suite' }
                                    ])
 
 bedroom_statuses = BedroomStatus.create([
-                                          { key: 'statut_en_nettoyage', label: 'En nettoyage' },
-                                          { key: 'statut_occupe', label: 'Occupé' },
-                                          { key: 'statut_reserve', label: 'Réservé' },
-                                          { key: 'statut_non_disponible', label: 'Non disponible' },
-                                          { key: 'statut_disponible', label: 'Disponible' }
+                                          { key: 'status_in_cleaning', label: 'In cleaning' },
+                                          { key: 'status_occupied', label: 'Occupied' },
+                                          { key: 'status_reserved', label: 'Reserved' },
+                                          { key: 'status_not_available', label: 'Not available' },
+                                          { key: 'status_available', label: 'Available' }
                                         ])
 
-view_types = ViewType.create([{ key: 'view_parking', label: 'Parking' }, { key: 'view_ocean', label: 'Océan' }])
+view_types = ViewType.create([{ key: 'view_parking', label: 'Parking' }, { key: 'view_ocean', label: 'Ocean' }])
 
 bedrooms = Bedroom.create([
                             {
@@ -36,15 +36,15 @@ bedrooms = Bedroom.create([
                               bedroom_status_id: bedroom_statuses.first.id,
                               view_type_id: view_types.first.id,
                               nb_of_beds: 2,
-                              price_per_night: 355.50 # 711 +
+                              price_per_night: 355.50
                             },
                             {
                               name: 'A101',
-                              bedroom_type_id: bedroom_types.find { |x| x.key == 'chambre_double_lit' }.id,
-                              bedroom_status_id: bedroom_statuses.find { |x| x.key == 'statut_reserve' }.id,
+                              bedroom_type_id: bedroom_types.find { |x| x.key == 'bedroom_double_bed' }.id,
+                              bedroom_status_id: bedroom_statuses.find { |x| x.key == 'status_reserved' }.id,
                               view_type_id: view_types.find { |x| x.key == 'view_ocean' }.id,
                               nb_of_beds: 1,
-                              price_per_night: 410.75 # 821.50 = 1532,50
+                              price_per_night: 410.75
                             },
                             {
                               name: 'A102',
@@ -55,6 +55,22 @@ bedrooms = Bedroom.create([
                               price_per_night: 672.25
                             }
                           ])
+
+bedrooms_to_create = []
+
+(3..99).to_a.each do |n|
+  n = n.to_s.rjust(2, '0')
+  bedrooms_to_create << {
+    name: "A1#{n}",
+    bedroom_type_id: bedroom_types.sample.id,
+    bedroom_status_id: bedroom_statuses.sample.id,
+    view_type_id: view_types.sample.id,
+    nb_of_beds: rand(1..10),
+    price_per_night: rand(95.0..950.50).round(2)
+  }
+end
+
+Bedroom.create(bedrooms_to_create)
 
 bedrooms[0].neighbors << bedrooms[1]
 bedrooms[1].neighbors << bedrooms[0]
