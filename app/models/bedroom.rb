@@ -6,6 +6,7 @@ class Bedroom < ActiveRecord::Base
   validates :bedroom_status_id, presence: true
   validates :view_type_id, presence: true
   validates :price_per_night, presence: true
+  validates :nb_of_beds, presence: true
 
   belongs_to :bedroom_type
   belongs_to :bedroom_status
