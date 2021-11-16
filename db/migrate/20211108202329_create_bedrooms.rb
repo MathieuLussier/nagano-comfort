@@ -1,7 +1,7 @@
 class CreateBedrooms < ActiveRecord::Migration
   def up
     create_table :bedrooms do |t|
-      t.string :name, null: false
+      t.string :name, null: false, unique: true
       t.integer :nb_of_beds, null: false
       t.decimal :price_per_night, null: false
 
