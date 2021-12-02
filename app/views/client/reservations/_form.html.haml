@@ -13,7 +13,7 @@
           = f.text_field :customer_id, style: 'display:none'
         .input-group.mb-3
           %span.input-group-text= "#{Reservation.human_attribute_name(:bedrooms)} and #{Bedroom.human_attribute_name(:neighbors)}"
-          = f.select :bedrooms, options_from_collection_for_select(Bedroom.find_all_by_id(@bedrooms_allowed_ids), :id, :name, {selected: @reservation.bedrooms.map(&:id)}), {}, { class: 'form-select', multiple: true }
+          = f.select :bedrooms, options_from_collection_for_select(Bedroom.all, :id, :name, {selected: @reservation.bedrooms.map(&:id)}), {}, { class: 'form-select', multiple: true }
         .input-group.mb-3
           %span.input-group-text= Reservation.human_attribute_name(:description)
           = f.text_area :description, rows: 10, style: 'widt h:100%;', class: "form-control"

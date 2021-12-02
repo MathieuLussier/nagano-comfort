@@ -49,9 +49,7 @@ class Client::ReservationsController < Client::ClientController
     @reservation.customer_id = params[:customer_id]
     @reservation.in_date = params[:in_date]
     @reservation.duration = params[:duration]
-    bedroom = Bedroom.find_by_id(params[:bedroom_id])
-    @reservation.bedrooms << bedroom
-    @bedrooms_allowed_ids = [bedroom.id] + bedroom.neighbors.map(&:id)
+    @reservation.bedrooms << Bedroom.find_by_id(params[:bedroom_id])
   end
 
   def create
