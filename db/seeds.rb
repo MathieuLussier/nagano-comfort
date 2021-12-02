@@ -13,52 +13,23 @@ customers = Customer.create([
                             ])
 
 bedroom_types = BedroomType.create([
-                                     { key: 'bedroom_simple_bed', label: 'Simple bed' },
-                                     { key: 'bedroom_double_bed', label: 'Double bed' },
-                                     { key: 'bedroom_executive', label: 'Executive bedroom' },
-                                     { key: 'presidential_suite', label: 'Presidential suite' }
+                                     { name: 'Simple bed' },
+                                     { name: 'Double bed' },
+                                     { name: 'Executive bedroom' },
+                                     { name: 'Presidential suite' }
                                    ])
 
 bedroom_statuses = BedroomStatus.create([
-                                          { key: 'status_in_cleaning', label: 'In cleaning' },
-                                          { key: 'status_occupied', label: 'Occupied' },
-                                          { key: 'status_reserved', label: 'Reserved' },
-                                          { key: 'status_not_available', label: 'Not available' },
-                                          { key: 'status_available', label: 'Available' }
+                                          { name: 'In cleaning' },
+                                          { name: 'Not available' },
+                                          { name: 'Available' }
                                         ])
 
-view_types = ViewType.create([{ key: 'view_parking', label: 'Parking' }, { key: 'view_ocean', label: 'Ocean' }])
-
-bedrooms = Bedroom.create([
-                            {
-                              name: 'A100',
-                              bedroom_type_id: bedroom_types.first.id,
-                              bedroom_status_id: bedroom_statuses.first.id,
-                              view_type_id: view_types.first.id,
-                              nb_of_beds: 2,
-                              price_per_night: 355.50
-                            },
-                            {
-                              name: 'A101',
-                              bedroom_type_id: bedroom_types.find { |x| x.key == 'bedroom_double_bed' }.id,
-                              bedroom_status_id: bedroom_statuses.find { |x| x.key == 'status_reserved' }.id,
-                              view_type_id: view_types.find { |x| x.key == 'view_ocean' }.id,
-                              nb_of_beds: 1,
-                              price_per_night: 410.75
-                            },
-                            {
-                              name: 'A102',
-                              bedroom_type_id: bedroom_types.last.id,
-                              bedroom_status_id: bedroom_statuses.last.id,
-                              view_type_id: view_types.last.id,
-                              nb_of_beds: 4,
-                              price_per_night: 672.25
-                            }
-                          ])
+view_types = ViewType.create([{ name: 'Parking' }, { name: 'Ocean' }])
 
 bedrooms_to_create = []
 
-(3..99).to_a.each do |n|
+(0..99).to_a.each do |n|
   n = n.to_s.rjust(2, '0')
   bedrooms_to_create << {
     name: "A1#{n}",
@@ -70,12 +41,20 @@ bedrooms_to_create = []
   }
 end
 
-Bedroom.create(bedrooms_to_create)
+bedrooms = Bedroom.create(bedrooms_to_create)
 
-bedrooms[0].neighbors << bedrooms[1]
-bedrooms[1].neighbors << bedrooms[0]
-bedrooms[1].neighbors << bedrooms[2]
-bedrooms[2].neighbors << bedrooms[1]
+neighbors = []
+bedrooms.each do |b|
+  neighbors.push b
+
+  if neighbors.length == 3
+    neighbors[0].neighbors << neighbors[1]
+    neighbors[1].neighbors << neighbors[0]
+    neighbors[1].neighbors << neighbors[2]
+    neighbors[2].neighbors << neighbors[1]
+    neighbors.clear
+  end
+end
 
 price_variations = PriceVariation.create([
                                            {
@@ -104,18 +83,20 @@ price_variations = PriceVariation.create([
                                            }
                                          ])
 
-reservation_1 = bedrooms[0].reservations.create({
-                                                  customer_id: customers.first.id,
-                                                  description: 'The client want both bedrooms to be connected together.',
-                                                  in_date: DateTime.parse('2021-11-06 14:00'),
-                                                  out_date: nil,
-                                                  nb_guests: 3,
-                                                  duration: 2
-                                                })
-
-bedrooms[1].reservations << reservation_1
+reservation_1 = Reservation.create({
+                                    customer_id: customers.first.id,
+                                    description: 'The client want both bedrooms to be connected together.',
+                                    in_date: DateTime.parse('2021-11-06 14:00'),
+                                    out_date: nil,
+                                    nb_guests: 3,
+                                    duration: 2,
+                                    bedrooms: [bedrooms[0], bedrooms[1]]
+                                  })
 
 reservation_1.price_variations << price_variations.first
 reservation_1.price_variations << price_variations.last
 
-transaction_1 = reservation_1.transactions.create({ customer_id: reservation_1.customer.id, transaction_date: DateTime.parse('2021-11-10 11:25') })
+transaction_1 = reservation_1.transactions.create({ customer_id: reservation_1.customer.id,
+                                                    transaction_date: DateTime.parse('2021-11-10 11:25'),
+                                                    total_due: (reservation_1.sub_total.to_f / 2).round(2),
+                                                    is_paid: true })

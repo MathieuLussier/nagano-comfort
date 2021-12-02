@@ -1,0 +1,3 @@
+$('#page-content').empty();
+$('#page-content').append('<%= escape_javascript(render partial: 'card') %>');
+$('#page-content').append('<%= link_to 'Back', :back, remote: true, class: 'btn btn-primary' %>');

@@ -1,0 +1,6 @@
+.dropdown
+  %button#user-role-menu.btn.btn-light.btn-outline-dark.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", type: "button"}
+    = @user_role
+  %ul.dropdown-menu{"aria-labelledby" => "limit-menu"}
+    %li= link_to "User", params.merge({user_role: "User"}), class: "dropdown-item"
+    %li= link_to "Admin", params.merge({user_role: "Admin"}), class: "dropdown-item"

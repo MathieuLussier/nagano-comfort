@@ -1,0 +1,33 @@
+.container-fluid.h-100.bg-light.text-dark
+  .row.justify-content-center.align-items-center
+    %h1
+      = @action.capitalize
+      bedroom
+  %hr/
+  .row.justify-content-center.align-items-center.h-100
+    .col.col-sm-6.col-md-6.col-lg-4.col-xl-3
+      = form_for [:admin, @bedroom], html: {id: "bedroom-form"}, remote: true do |f|
+        .input-group.mb-3
+          %span.input-group-text= Bedroom.human_attribute_name(:name)
+          = f.text_field :name, class: "form-control"
+        .input-group.mb-3
+          %span.input-group-text= Bedroom.human_attribute_name(:bedroom_type_id)
+          = f.collection_select :bedroom_type_id, BedroomType.all, :id, :name, {}, { class: "form-select" }
+        .input-group.mb-3
+          %span.input-group-text= Bedroom.human_attribute_name(:bedroom_status_id)
+          = f.collection_select :bedroom_status_id, BedroomStatus.all, :id, :name, {}, { class: "form-select" }
+        .input-group.mb-3
+          %span.input-group-text= Bedroom.human_attribute_name(:view_type_id)
+          = f.collection_select :view_type_id, ViewType.all, :id, :name, {}, { class: "form-select" }
+        .input-group.mb-3
+          %span.input-group-text= Bedroom.human_attribute_name(:neighbors)
+          = f.select :neighbors, options_from_collection_for_select(Bedroom.all, :id, :name, {selected: @bedroom.neighbors.map(&:id)}), {}, { class: 'form-select', multiple: true }
+        .input-group.mb-3
+          %span.input-group-text= Bedroom.human_attribute_name(:price_per_night)
+          = f.number_field :price_per_night, step: :any, class: "form-control"
+          %span.input-group-text $
+        .input-group.mb-3
+          %span.input-group-text= Bedroom.human_attribute_name(:nb_of_beds)
+          = f.number_field :nb_of_beds, step: 1, value: @bedroom.try(:nb_of_beds), class: "form-control"
+        = f.submit submit_text(@action), class: "btn btn-primary"
+        = link_to "Back", :back, class: "btn btn-danger"

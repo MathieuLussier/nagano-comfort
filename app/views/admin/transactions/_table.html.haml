@@ -1,0 +1,29 @@
+.table-responsive
+  %table.table.caption-top
+    %caption
+      Transactions
+      .float-end
+        = render "layouts/pagination_limit"
+    %thead.table-dark
+      %tr
+        %th{scope: "col"} #
+        %th{scope: "col"}= Transaction.human_attribute_name(:customer)
+        %th{scope: "col"}= Transaction.human_attribute_name(:total_due)
+        %th{scope: "col"}= Transaction.human_attribute_name(:transaction_date)
+        %th{scope: "col"}= Transaction.human_attribute_name(:is_paid)
+        %th{colspan: "3"}
+    %tbody
+      - @transactions.each do |transaction|
+        %tr
+          %th{scope: "row"}= transaction.id
+          %td= transaction.customer.try(:name)
+          %td= number_to_currency(transaction.total_due, unit: '$')
+          %td= transaction.transaction_date
+          %td= transaction.is_paid
+          %td
+            .btn-group.btn-group-sm{"aria-label" => "Action buttons", role: "group"}
+              = link_to 'Show', admin_transaction_path(transaction), remote: true, class: 'btn btn-success'
+              = link_to 'Edit', edit_admin_transaction_path(transaction), remote: true, class: 'btn btn-warning'
+              = link_to 'Delete', admin_transaction_path(transaction), class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure you want to delete this transaction ?' }
+  .d-flex.justify-content-end
+    = render "layouts/pagination_navigation"

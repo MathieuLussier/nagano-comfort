@@ -1,0 +1,35 @@
+.card{style: "max-width: 18rem;"}
+  .card-body
+    %h5.card-title
+      Bedroom #{@bedroom.name}
+  %ul.list-group.list-group-flush
+    %li.list-group-item
+      = "#{Bedroom.human_attribute_name(:bedroom_type)}: #{@bedroom.bedroom_type.try(:name)}"
+    %li.list-group-item
+      = "#{Bedroom.human_attribute_name(:bedroom_status)}: #{@bedroom.bedroom_status.try(:name)}"
+    %li.list-group-item
+      = "#{Bedroom.human_attribute_name(:view_type)}: #{@bedroom.view_type.try(:name)}"
+    %li.list-group-item
+      = "#{Bedroom.human_attribute_name(:nb_of_beds)}: #{@bedroom.nb_of_beds}"
+    %li.list-group-item
+      = "#{Bedroom.human_attribute_name(:price_per_night)}: #{number_to_currency(@bedroom.price_per_night, unit: '$')}"
+    %li.list-group-item
+      = "#{Bedroom.human_attribute_name(:neighbors)}: "
+      - if @bedroom.neighbors.length() > 0
+        %ul
+          - @bedroom.neighbors.each do |neighbor|
+            %li
+              - if @user_role == 'User'
+                = link_to neighbor.name, client_bedroom_path(neighbor), remote: true
+              - else
+                = link_to neighbor.name, admin_bedroom_path(neighbor), remote: true
+      - else
+        %span None
+  .card-body.text-center
+    - if @user_role == 'User' && @action == 'index'
+      .btn-group.btn-group-sm{"aria-label" => "Action buttons", role: "group"}
+        = link_to 'Check availability', check_availability_client_bedroom_path(@bedroom), remote: true, class: 'btn btn-primary'
+    - if @user_role == 'Admin'
+      .btn-group.btn-group-sm{"aria-label" => "Action buttons", role: "group"}
+        = link_to 'Edit', edit_admin_bedroom_path(@bedroom), remote: true, class: 'btn btn-warning'
+        = link_to 'Delete', admin_bedroom_path(@bedroom), class: 'btn btn-danger', method: 'delete', data: { confirm: 'Are you sure you want to delete this bedroom ?' }

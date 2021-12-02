@@ -1,0 +1,4 @@
+$('#page-content').empty();
+$('#page-content').append('<div><%= link_to "Create new transaction", new_admin_transaction_path(reservation_id: @reservation.id, customer_id: @reservation.customer.id, total_due: @reservation.sub_total), remote: true, class: "btn btn-primary" %></div>');
+$('#page-content').append('<%= escape_javascript(card_reservation(@reservation)) %>');
+$('#page-content').append('<%= link_to 'Back', :back, remote: true, class: 'btn btn-primary' %>');

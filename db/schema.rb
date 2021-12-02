@@ -21,15 +21,13 @@ ActiveRecord::Schema.define(:version => 20211109204353) do
   end
 
   create_table "bedroom_statuses", :force => true do |t|
-    t.string   "key",        :null => false
-    t.string   "label",      :null => false
+    t.string   "name",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "bedroom_types", :force => true do |t|
-    t.string   "key",        :null => false
-    t.string   "label",      :null => false
+    t.string   "name",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -58,7 +56,7 @@ ActiveRecord::Schema.define(:version => 20211109204353) do
     t.decimal  "variation_amount",                    :null => false
     t.date     "start_date",                          :null => false
     t.date     "end_date"
-    t.integer  "day_of_week"
+    t.integer  "day_of_week",      :default => 0
     t.boolean  "is_discount",      :default => false, :null => false
     t.datetime "created_at",                          :null => false
     t.datetime "updated_at",                          :null => false
@@ -80,27 +78,29 @@ ActiveRecord::Schema.define(:version => 20211109204353) do
 
   create_table "reservations", :force => true do |t|
     t.text     "description"
-    t.datetime "in_date",     :null => false
+    t.datetime "in_date",                            :null => false
     t.datetime "out_date"
-    t.integer  "nb_guests"
-    t.integer  "duration"
-    t.integer  "customer_id", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.date     "expected_end_date"
+    t.integer  "nb_guests",         :default => 0
+    t.integer  "duration",          :default => 0
+    t.decimal  "sub_total",         :default => 0.0
+    t.integer  "customer_id",                        :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
   end
 
   create_table "transactions", :force => true do |t|
-    t.decimal  "sub_total"
+    t.decimal  "total_due",        :default => 0.0
     t.datetime "transaction_date"
-    t.integer  "reservation_id",   :null => false
-    t.integer  "customer_id",      :null => false
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.boolean  "is_paid",          :default => false
+    t.integer  "reservation_id",                      :null => false
+    t.integer  "customer_id",                         :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
   end
 
   create_table "view_types", :force => true do |t|
-    t.string   "key",        :null => false
-    t.string   "label",      :null => false
+    t.string   "name",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

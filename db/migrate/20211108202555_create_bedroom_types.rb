@@ -1,8 +1,7 @@
 class CreateBedroomTypes < ActiveRecord::Migration
   def up
     create_table :bedroom_types do |t|
-      t.string :key, null: false
-      t.string :label, null: false
+      t.string :name, null: false
 
       t.timestamps
     end

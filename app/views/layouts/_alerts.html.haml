@@ -1,0 +1,5 @@
+- if flash.any?
+  - flash.each do |type, msg|
+    %div{class: "alert alert-#{bootstrap_flash_types(type)} alert-dismissible fade show", "data-auto-dismiss" => 2000}
+      = msg
+      %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "alert", type: "button"}

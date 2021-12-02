@@ -1,0 +1,21 @@
+.container
+  .text-left
+    %h2
+      Check #{@bedroom.name} availability
+    = form_tag nil, method: "GET", id: "check-availability-form", class: "row gx-3 gy-2 m-4 justify-content-start align-items-center" do
+      .col-sm-3
+        = label_tag 'start_date', 'Date start: '
+        %input#start_date.form-control{name: "start_date", type: "date", value: "#{params[:start_date]}"}/
+      .col-sm-3
+        = label_tag 'end_date', 'Date end: '
+        %input#end_date.form-control{name: "end_date", type: "date", value: "#{params[:end_date]}"}/
+      .col-sm-3
+        = submit_tag "Check availability", class: "btn btn-sm btn-primary"
+    #avalability-result.p-4
+      - if @available == true
+        Bedroom available do you want to
+        \#{link_to 'make a reservation', new_client_reservation_path(bedroom_id: @bedroom.id, customer_id: @current_user_id, in_date: params[:start_date].to_datetime, duration: get_duration(params[:start_date], params[:end_date])), remote: true}
+        on this date range?
+      - elsif @available == false && params[:start_date].present? && params[:end_date].present?
+        Bedroom not available. Try another range of date.
+  = card_bedroom(@bedroom)

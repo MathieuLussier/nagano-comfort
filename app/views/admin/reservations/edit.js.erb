@@ -1,0 +1,10 @@
+$('#page-content').empty();
+$('#page-content').append('<%= escape_javascript(render partial: 'form') %>');
+$('form#reservation-form[data-remote="true"]').on('ajax:success', function(e, data, status, xhr) {
+    // if ajax is success set the default value to the current value so it doesnt reset on the old value when an error occured.
+    Array.from(e.currentTarget.elements).map((el) => el.defaultValue = el.value);
+    alert('Reservation updated successfully', 'success');
+}).on('ajax:error', function(e, xhr, status, error) {
+    e.target.reset();
+    alert(xhr.responseText, 'danger', 0);
+});

@@ -1,0 +1,30 @@
+.container-fluid.h-100.bg-light.text-dark
+  .row.justify-content-center.align-items-center
+    %h1
+      = @action.capitalize
+      reservation
+  %hr/
+  .row.justify-content-center.align-items-center.h-100
+    .col.col-sm-6.col-md-6.col-lg-4.col-xl-3
+      = form_for [:client, @reservation], html: {id: "client-reservation-form"}, remote: true do |f|
+        .input-group.mb-3
+          %span.input-group-text= Reservation.human_attribute_name(:customer)
+          = f.collection_select :customer_id, Customer.all, :id, :name, {}, { class: "form-select", disabled: true }
+          = f.text_field :customer_id, style: 'display:none'
+        .input-group.mb-3
+          %span.input-group-text= "#{Reservation.human_attribute_name(:bedrooms)} and #{Bedroom.human_attribute_name(:neighbors)}"
+          = f.select :bedrooms, options_from_collection_for_select(Bedroom.find_all_by_id(@bedrooms_allowed_ids), :id, :name, {selected: @reservation.bedrooms.map(&:id)}), {}, { class: 'form-select', multiple: true }
+        .input-group.mb-3
+          %span.input-group-text= Reservation.human_attribute_name(:description)
+          = f.text_area :description, rows: 10, style: 'widt h:100%;', class: "form-control"
+        .input-group.mb-3
+          %span.input-group-text= Reservation.human_attribute_name(:in_date)
+          = f.datetime_select :in_date, start_year: Time.now.year
+        .input-group.mb-3
+          %span.input-group-text= Reservation.human_attribute_name(:nb_guests)
+          = f.number_field :nb_guests, step: 1, class: "form-control"
+        .input-group.mb-3
+          %span.input-group-text= Reservation.human_attribute_name(:duration)
+          = f.number_field :duration, step: 1, class: "form-control"
+        = f.submit submit_text(@action), class: "btn btn-primary"
+        = link_to "Back", :back, class: "btn btn-danger"

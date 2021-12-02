@@ -1,0 +1,10 @@
+%div.d-flex.flex-row.justify-content-center.align-items-center
+  %span limit:
+  .dropdown
+    %button#limit-menu.btn.btn-outline-dark.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", type: "button"}
+      = @limit
+    %ul.dropdown-menu{"aria-labelledby" => "limit-menu"}
+      %li= link_to 10, params.merge({limit: 10, pages: 0}), remote: true, class: "dropdown-item"
+      %li= link_to 25, params.merge({limit: 25, pages: 0}), remote: true, class: "dropdown-item"
+      %li= link_to 50, params.merge({limit: 50, pages: 0}), remote: true, class: "dropdown-item"
+      %li= link_to 100, params.merge({limit: 100, pages: 0}), remote: true, class: "dropdown-item"

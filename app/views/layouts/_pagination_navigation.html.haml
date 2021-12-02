@@ -1,0 +1,15 @@
+%nav
+  %ul.pagination.mr-auto
+    %li{class: "page-item #{'disabled' if (@pages - 1) < 0}"}= link_to 'Previous', params.merge({pages: @pages - 1}), remote: true, class: 'page-link'
+    %li{class: "page-item #{'active' if @pages == 0}"}= link_to 1, params.merge({pages: 0}), remote: true, class: 'page-link'
+    - if show_left_dots?
+      %li.page-item.disabled
+        %a.page-link{href: "#"} ...
+    - for i in paginate_pages do
+      %li{class: "page-item #{'active' if @pages == i}"}= link_to i + 1, params.merge({pages: i}), remote: true, class: 'page-link'
+    - if show_right_dots?
+      %li.page-item.disabled
+        %a.page-link{href: "#"} ...
+    - if pages_count > 1
+      %li{class: "page-item #{'active' if @pages == pages_count - 1}"}= link_to pages_count, params.merge({pages: pages_count - 1}), remote: true, class: 'page-link'
+    %li{class: "page-item #{'disabled' if (@pages + 1) >= pages_count}"}= link_to 'Next', params.merge({pages: @pages + 1}), remote: true, class: 'page-link'

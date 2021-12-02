@@ -1,0 +1,11 @@
+.container
+  %h1 Search for Bedrooms
+  = render 'shared/bedrooms/bedroom_search'
+  .d-flex.justify-content-end
+    = render "layouts/pagination_limit"
+  .row.mt-4
+    - @bedrooms.each do |bedroom|
+      .col-4
+        = card_bedroom(bedroom)
+  .d-flex.justify-content-end
+    = render "layouts/pagination_navigation"

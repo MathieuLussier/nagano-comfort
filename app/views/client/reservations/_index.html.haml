@@ -1,0 +1,10 @@
+.container
+  %h1 My Reservations
+  .d-flex.justify-content-end
+    = render "layouts/pagination_limit"
+  .row.mt-4
+    - @reservations.each do |reservation|
+      .col-4
+        = card_reservation(reservation)
+  .d-flex.justify-content-end
+    = render "layouts/pagination_navigation"

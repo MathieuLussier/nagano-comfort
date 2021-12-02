@@ -1,1 +1,18 @@
-%h1 Home page
+.container
+  %div.text-center
+    %h1 Welcome to Nagano Comfort
+    %p
+      You are looking for a bedroom? #{link_to "Click here", client_bedrooms_path} to look for a perfect fit for you!
+  %div.row
+    %div.col-xs-12.col-sm-6.col-md-4
+      = image_tag("bedroom_1.jpg", class: "img-thumbnail")
+    %div.col-xs-12.col-sm-6.col-md-4
+      = image_tag("bedroom_2.jpg", class: "img-thumbnail")
+    %div.col-xs-12.col-sm-6.col-md-4
+      = image_tag("bedroom_3.jpg", class: "img-thumbnail")
+    %div.col-xs-12.col-sm-6.col-md-4
+      = image_tag("bedroom_4.jpg", class: "img-thumbnail")
+    %div.col-xs-12.col-sm-6.col-md-4
+      = image_tag("bedroom_5.jpg", class: "img-thumbnail")
+    %div.col-xs-12.col-sm-6.col-md-4
+      = image_tag("bedroom_6.jpg", class: "img-thumbnail")

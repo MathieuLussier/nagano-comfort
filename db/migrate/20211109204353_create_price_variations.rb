@@ -5,7 +5,7 @@ class CreatePriceVariations < ActiveRecord::Migration
       t.decimal :variation_amount, null: false
       t.date :start_date, null: false
       t.date :end_date
-      t.integer :day_of_week
+      t.integer :day_of_week, default: 0
       t.boolean :is_discount, default: false, null: false
 
       t.timestamps

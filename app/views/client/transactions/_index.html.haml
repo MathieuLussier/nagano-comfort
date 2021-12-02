@@ -1,0 +1,10 @@
+.container
+  %h1 My Transactions
+  .d-flex.justify-content-end
+    = render "layouts/pagination_limit"
+  .row.mt-4
+    - @transactions.each do |transaction|
+      .col-4
+        = card_transaction(transaction)
+  .d-flex.justify-content-end
+    = render "layouts/pagination_navigation"

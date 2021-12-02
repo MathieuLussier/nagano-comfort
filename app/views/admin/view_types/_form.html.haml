@@ -1,0 +1,14 @@
+.container-fluid.h-100.bg-light.text-dark
+  .row.justify-content-center.align-items-center
+    %h1
+      = @action.capitalize
+      view type
+  %hr/
+  .row.justify-content-center.align-items-center.h-100
+    .col.col-sm-6.col-md-6.col-lg-4.col-xl-3
+      = form_for [:admin, @view_type], html: {id: "view-type-form"}, remote: true do |f|
+        .input-group.mb-3
+          %span.input-group-text= ViewType.human_attribute_name(:name)
+          = f.text_field :name, class: "form-control"
+        = f.submit submit_text(@action), class: "btn btn-primary"
+        = link_to "Back", :back, class: "btn btn-danger"

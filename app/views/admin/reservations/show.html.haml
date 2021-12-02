@@ -1,0 +1,4 @@
+%div
+  = link_to "Create new transaction", new_admin_transaction_path(reservation_id: @reservation.id, customer_id: @reservation.customer.id, total_due: @reservation.sub_total), remote: true, class: "btn btn-primary"
+= card_reservation(@reservation)
+= link_to 'Back', :back, class: 'btn btn-primary'

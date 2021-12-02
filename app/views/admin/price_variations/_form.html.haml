@@ -1,0 +1,30 @@
+.container-fluid.h-100.bg-light.text-dark
+  .row.justify-content-center.align-items-center
+    %h1
+      = @action.capitalize
+      price variation
+  %hr/
+  .row.justify-content-center.align-items-center.h-100
+    .col.col-sm-6.col-md-6.col-lg-4.col-xl-3
+      = form_for [:admin, @price_variation], html: {id: "price-variation-form"}, remote: true do |f|
+        .input-group.mb-3
+          %span.input-group-text= PriceVariation.human_attribute_name(:name)
+          = f.text_field :name, class: "form-control"
+        .input-group.mb-3
+          %span.input-group-text= PriceVariation.human_attribute_name(:variation_amount)
+          = f.number_field :variation_amount, step: 0.01, class: "form-control"
+        .input-group.mb-3
+          %span.input-group-text= PriceVariation.human_attribute_name(:start_date)
+          = f.date_select :start_date
+        .input-group.mb-3
+          %span.input-group-text= PriceVariation.human_attribute_name(:end_date)
+          = f.date_select :end_date, include_blank: true
+        .input-group.mb-3
+          %span.input-group-text= PriceVariation.human_attribute_name(:day_of_week)
+          = f.select :day_of_week, day_of_the_week_options.collect {|d| [ d[:name], d[:id] ]}, { class: "form-control" }
+        .form-check.mb-3
+          = f.check_box :is_discount, class: "form-check-input"
+          %label.form-check-label
+            = PriceVariation.human_attribute_name(:is_discount)
+        = f.submit submit_text(@action), class: "btn btn-primary"
+        = link_to "Back", :back, class: "btn btn-danger"

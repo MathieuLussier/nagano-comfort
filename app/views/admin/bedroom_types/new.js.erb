@@ -1,0 +1,5 @@
+$('#page-content').empty();
+$('#page-content').append('<%= escape_javascript(render partial: 'form') %>');
+$('form#bedroom-type-form[data-remote="true"]').on('ajax:error', function(e, xhr, status, error) {
+    alert(xhr.responseText, 'danger', 0);
+});

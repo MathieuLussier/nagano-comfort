@@ -1,0 +1,35 @@
+.table-responsive
+  %table.table.caption-top
+    %caption
+      Reservations
+      .float-end
+        = render "layouts/pagination_limit"
+    %thead.table-dark
+      %tr
+        %th{scope: "col"} #
+        %th{scope: "col"}= Reservation.human_attribute_name(:customer)
+        %th{scope: "col"}= Reservation.human_attribute_name(:in_date)
+        %th{scope: "col"}= Reservation.human_attribute_name(:out_date)
+        %th{scope: "col"}= Reservation.human_attribute_name(:nb_guests)
+        %th{scope: "col"}= Reservation.human_attribute_name(:duration)
+        %th{scope: "col"}= Reservation.human_attribute_name(:sub_total)
+        %th{colspan: "3"}
+    %tbody
+      - @reservations.each do |reservation|
+        %tr
+          %th{scope: "row"}= reservation.id
+          %td= reservation.customer.try(:name)
+          %td= reservation.in_date
+          %td= reservation.out_date
+          %td= reservation.nb_guests
+          %td= reservation.duration
+          %td= number_to_currency(reservation.sub_total, unit: '$')
+          %td
+            .btn-group.btn-group-sm{"aria-label" => "Action buttons", role: "group"}
+              = link_to 'Show', admin_reservation_path(reservation), remote: true, class: 'btn btn-success'
+              = link_to 'Edit', edit_admin_reservation_path(reservation), remote: true, class: 'btn btn-warning'
+              = link_to 'Delete', admin_reservation_path(reservation), class: 'btn btn-danger', method: :delete, data: { confirm: 'Are you sure you want to delete this reservation ?' }
+  .d-flex.justify-content-between
+    %div
+      = link_to "Create new reservation", new_admin_reservation_path, remote: true, class: "btn btn-primary"
+    = render "layouts/pagination_navigation"

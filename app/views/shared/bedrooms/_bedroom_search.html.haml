@@ -1,0 +1,18 @@
+= form_tag nil, method: "GET", class: "row gx-3 gy-2 justify-content-center align-items-center" do
+  = hidden_field_tag 'user_role', params[:user_role]
+  .col-sm-3
+    = text_field_tag :bedroom_name, params[:bedroom_name], class: "form-control", placeholder: "Search by Name"
+  .col-sm-3
+    = select_tag :bedroom_type, options_from_collection_for_select(BedroomType.all, :id, :name, {selected: params[:bedroom_type]}), { class: 'form-select', prompt: 'Choose type' }
+  .col-sm-3
+    = select_tag :view_type, options_from_collection_for_select(ViewType.all, :id, :name, {selected: params[:view_type]}), { class: 'form-select', prompt: 'Choose view' }
+  .col-sm-3
+    = number_field_tag :nb_of_beds, params[:nb_of_beds], step: 1, class: "form-control", placeholder: "Number of beds"
+  .col-sm-3
+    = label_tag 'start_date', 'Date start: '
+    %input#start_date.form-control{name: "start_date", type: "date", value: "#{params[:start_date]}"}/
+  .col-sm-3
+    = label_tag 'end_date', 'Date end: '
+    %input#end_date.form-control{name: "end_date", type: "date", value: "#{params[:end_date]}"}/
+  .col-auto
+    = submit_tag "Search", class: "btn btn-primary"

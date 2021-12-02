@@ -1,0 +1,30 @@
+.container-fluid.h-100.bg-light.text-dark
+  .row.justify-content-center.align-items-center
+    %h1
+      = @action.capitalize
+      transaction
+  %hr/
+  .row.justify-content-center.align-items-center.h-100
+    .col.col-sm-6.col-md-6.col-lg-4.col-xl-3
+      = form_for [:admin, @transaction], html: {id: "transaction-form"}, remote: true do |f|
+        .input-group.mb-3
+          %span.input-group-text= Transaction.human_attribute_name(:customer)
+          = f.collection_select :customer_id, Customer.all, :id, :name, {}, { class: "form-select", disabled: true }
+          = f.text_field :customer_id, style: 'display:none'
+        .input-group.mb-3
+          %span.input-group-text= Transaction.human_attribute_name(:reservation)
+          = f.collection_select :reservation_id, Reservation.all, :id, :id, {}, { class: "form-select", disabled: true }
+          = f.text_field :reservation_id, style: 'display:none'
+        .input-group.mb-3
+          %span.input-group-text= Transaction.human_attribute_name(:total_due)
+          = f.number_field :total_due, step: :any, class: "form-control"
+          %span.input-group-text $
+        .input-group.mb-3
+          %span.input-group-text= Transaction.human_attribute_name(:transaction_date)
+          = f.datetime_select :transaction_date
+        .form-check.mb-3
+          = f.check_box :is_paid, class: "form-check-input"
+          %label.form-check-label
+            = Transaction.human_attribute_name(:is_paid)
+        = f.submit submit_text(@action), class: "btn btn-primary"
+        = link_to "Back", :back, class: "btn btn-danger"
