@@ -8,7 +8,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 customers = Customer.create([
-                              { name: 'Mathieu Lussier', email: 'Mathieu.test@hotmail.com', phone: '(438) 834 4351' },
+                              { name: 'Mathieu Lussier', email: 'Mathilekiki@hotmail.com', phone: '(438) 834 4351' },
                               { name: 'Maxime Verner', email: 'Maxime.test@gmail.com', phone: '(450) 163 3852' }
                             ])
 
@@ -92,9 +92,6 @@ reservation_1 = Reservation.create({
                                     duration: 2,
                                     bedrooms: [bedrooms[0], bedrooms[1]]
                                   })
-
-reservation_1.price_variations << price_variations.first
-reservation_1.price_variations << price_variations.last
 
 transaction_1 = reservation_1.transactions.create({ customer_id: reservation_1.customer.id,
                                                     transaction_date: DateTime.parse('2021-11-10 11:25'),
