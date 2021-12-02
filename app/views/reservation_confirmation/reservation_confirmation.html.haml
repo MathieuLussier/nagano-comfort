@@ -1,0 +1,18 @@
+!!!
+%html{lang: "en"}
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{charset: "UTF-8"}/
+    %meta{content: "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0", name: "viewport"}/
+    %meta{content: "ie=edge", "http-equiv" => "X-UA-Compatible"}/
+    %title Document
+  %body
+    %h1
+      = @customer.name
+      , your reservation as been created successfully !
+    %h3 Reservation details
+    %div
+      Date: #{@reservation.in_date.to_date}
+      Number of guests: #{@reservation.nb_guests}
+      Duration: #{@reservation.duration}
+      Total: #{number_to_currency(@reservation.sub_total.to_f, unit: '$')}
