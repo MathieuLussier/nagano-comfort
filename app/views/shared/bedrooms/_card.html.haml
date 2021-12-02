@@ -26,7 +26,7 @@
       - else
         %span None
   .card-body.text-center
-    - if @user_role == 'User' && @action == 'index'
+    - if @action != 'check_availability'
       .btn-group.btn-group-sm{"aria-label" => "Action buttons", role: "group"}
         = link_to 'Check availability', check_availability_client_bedroom_path(@bedroom), remote: true, class: 'btn btn-primary'
     - if @user_role == 'Admin'
