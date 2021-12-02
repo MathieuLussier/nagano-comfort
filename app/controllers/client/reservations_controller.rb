@@ -61,6 +61,7 @@ class Client::ReservationsController < Client::ClientController
 
     respond_to do |format|
       if @reservation.save
+        ReservationConfirmation.reservation_confirmation_email(@current_user, @reservation).deliver
         format.html { redirect_to client_reservation_path(@reservation), notice: 'Reservation created successfully' }
         format.js { render js: "window.location='#{client_reservation_path(@reservation)}'", status: :created }
         format.json { render json: @reservation, status: :created, location: [:admin, @reservation] }
