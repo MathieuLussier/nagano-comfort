@@ -6,5 +6,7 @@
     - @reservations.each do |reservation|
       .col-4
         = card_reservation(reservation)
+    - if @record_count < 1
+      No reservations to show
   .d-flex.justify-content-end
     = render "layouts/pagination_navigation"

@@ -7,5 +7,7 @@
     - @bedrooms.each do |bedroom|
       .col-4
         = card_bedroom(bedroom)
+    - if @record_count < 1
+      No bedrooms to show
   .d-flex.justify-content-end
     = render "layouts/pagination_navigation"
