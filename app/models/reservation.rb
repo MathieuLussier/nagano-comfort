@@ -11,7 +11,6 @@ class Reservation < ActiveRecord::Base
   belongs_to :customer
 
   has_many :reservation_bedroom_rels
-  # has_many :bedrooms, through: :reservation_bedroom_rels, before_add: [:check_if_bedroom_available]
   has_many :bedrooms, through: :reservation_bedroom_rels, before_add: [:check_if_bedroom_available]
   has_many :transactions, class_name: 'Transaction'
   has_many :reservation_price_variation_rels
@@ -35,7 +34,7 @@ class Reservation < ActiveRecord::Base
   end
 
   validate :customer_already_have_transaction, on: :update
-  validate :test_to_make_sure
+  validate :check_if_bedrooms_available
   # validate :check_price_variation_can_apply
 
   def customer_already_have_transaction
@@ -44,7 +43,7 @@ class Reservation < ActiveRecord::Base
     end
   end
 
-  def test_to_make_sure
+  def check_if_bedrooms_available
     self.bedrooms.each do |bedroom|
       self.check_if_bedroom_available(bedroom)
     end
